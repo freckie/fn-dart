@@ -8,7 +8,7 @@ import (
 )
 
 func LoadConfig(filePath string) (*models.Config, error) {
-	cfg := &Config{}
+	cfg := &models.Config{}
 
 	dataBytes, err := ioutil.ReadFile(filePath)
 	if err != nil {
