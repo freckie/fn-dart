@@ -9,7 +9,7 @@ import (
 
 const apiListURL = "https://opendart.fss.or.kr/api/list.json"
 
-func GetRecentReports(cfg *models.Config, startDate string, page string, maxItems string) ([]models.APIResultListItem, error) {
+func GetRecentReports(cfg models.Config, startDate string, page string, maxItems string) ([]models.APIResultListItem, error) {
 	req, err := http.NewRequest("GET", apiListURL, nil)
 	if err != nil {
 		return nil, err
