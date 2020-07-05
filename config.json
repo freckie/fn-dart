@@ -11,21 +11,25 @@
     "targets": [
         {
             "crawler_id": "0",
+            "on": true,
             "keyword": "단일판매ㆍ공급계약체결",
             "message_format": "%(crop_name)\n판매ㆍ공급계약 내용 : %(0)\n확정 계약금액 : %(1)\n매출액 대비(%) : %(2)\n계약상대방 : %(3)\n판매ㆍ공급지역 : %(4)"
         },
         {
             "crawler_id": "1",
+            "on": true,
             "keyword": "기타경영사항(특허권 취득)",
             "message_format": "%(crop_name)\n특허명칭 : %(0)\n특허 활용계획 : %(1)"
         },
         {
             "crawler_id": "2",
+            "on": true,
             "keyword": "기타경영사항(자율공시)",
             "message_format": "%(crop_name)\n제목 : %(0)\n"
         },
         {
             "crawler_id": "3",
+            "on": true,
             "keyword": "투자판단관련주요경영사항",
             "message_format": "%(crop_name)\n제목 : %(0)\n"
         }
