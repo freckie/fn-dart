@@ -1,9 +1,9 @@
 package models
 
 type Report struct {
-	CrawlerID int
+	CrawlerID string
 	Title     string
-	RceptNo string
+	RceptNo   string
 	CorpName  string
 	Values    []string
 }
