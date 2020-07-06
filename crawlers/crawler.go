@@ -8,12 +8,17 @@ const DartPopupURL = "http://dart.fss.or.kr/dsaf001/main.do?rcpNo=%s"
 const DartReportURL = "http://dart.fss.or.kr/report/viewer.do?rcpNo=%s&dcmNo=%s&eleId=0&offset=0&length=0&dtd=HTML"
 
 type Crawler interface {
-	GetCID() string                      // Crawler ID
+	GetCID() string // Crawler ID
+	IsTarget(item *models.Report) bool
 	GetDetail(item *models.Report) error // Crawl detail values of each Reports
 }
 
 func GetCID(c Crawler) string {
 	return c.GetCID()
+}
+
+func IsTarget(c Crawler, item *models.Report) bool {
+	return c.IsTarget()
 }
 
 func GetDetail(c Crawler, item *models.Report) error {
