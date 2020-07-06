@@ -24,6 +24,7 @@ func main() {
 	}
 
 	var c crawlers.Crawler
+	cid2 := crawlers.CID2{}
 	cid3 := crawlers.CID3{}
 	cid4 := crawlers.CID4{}
 
@@ -33,7 +34,10 @@ func main() {
 		report.RceptNo = item.RceptNo
 		report.CorpName = item.CorpName
 
-		if cid3.IsTarget(item.ReportNM) {
+		if cid2.IsTarget(item.ReportNM) {
+			report.CrawlerID = "2"
+			c = cid2
+		} else if cid3.IsTarget(item.ReportNM) {
 			report.CrawlerID = "3"
 			c = cid3
 		} else if cid4.IsTarget(item.ReportNM) {
