@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"fn-dart/config"
 	"fn-dart/crawlers"
@@ -17,13 +18,14 @@ func main() {
 		os.Exit(0)
 	}
 
-	data, err := utils.GetRecentReports(*cfg, "20200706", "2", "100")
+	data, err := utils.GetRecentReports(*cfg, "20200706", "1", "100")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(0)
 	}
 
 	var c crawlers.Crawler
+	cid1 := crawlers.CID1{}
 	cid2 := crawlers.CID2{}
 	cid3 := crawlers.CID3{}
 	cid4 := crawlers.CID4{}
@@ -34,7 +36,14 @@ func main() {
 		report.RceptNo = item.RceptNo
 		report.CorpName = item.CorpName
 
-		if cid2.IsTarget(item.ReportNM) {
+		if strings.Contains(item.ReportNM, "[기재정정]") {
+			continue
+		}
+
+		if cid1.IsTarget(item.ReportNM) {
+			report.CrawlerID = "1"
+			c = cid1
+		} else if cid2.IsTarget(item.ReportNM) {
 			report.CrawlerID = "2"
 			c = cid2
 		} else if cid3.IsTarget(item.ReportNM) {
