@@ -1,0 +1,36 @@
+package utils
+
+import (
+	"bytes"
+	"strings"
+
+	"github.com/suapapa/go_hangul/encoding/cp949"
+)
+
+var /* const */ stringsToRemove = []string{"  ", "\t", "\n", "혻"}
+
+func TrimAll(value string) string {
+	result := strings.TrimSpace(value)
+	for _, str := range stringsToRemove {
+		result = strings.Replace(result, str, "", -1)
+	}
+	result = strings.Replace(result, "\u00a0", " ", -1)
+	return result
+}
+
+func ReadCP949(data string) (string, error) {
+	br := bytes.NewReader([]byte(data))
+	r, err := cp949.NewReader(br)
+	if err != nil {
+		return "", err
+	}
+
+	b := make([]byte, 10*1024)
+
+	c, err := r.Read(b)
+	if err != nil {
+		return "", err
+	}
+
+	return strings.TrimSpace(string(b[:c])), nil
+}
