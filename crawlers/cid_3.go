@@ -8,21 +8,21 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-var CID4Pattern = regexp.MustCompile(`투자 ?판단 ?관련 ?주요 ?경영 ?사항`)
-var CID4SubPattern1 = regexp.MustCompile(`1\. ?제목`)
+var CID3Pattern = regexp.MustCompile(`기타 ?경영 ?사항 ?\(자율 ?공시\)`)
+var CID3SubPattern1 = regexp.MustCompile(`1\. ?제목`)
 
-type CID4 struct{}
+type CID3 struct{}
 
-func (c CID4) GetCID() string {
-	return "4"
+func (c CID3) GetCID() string {
+	return "3"
 }
 
-func (c CID4) IsTarget(title string) bool {
-	matched := CID4Pattern.MatchString(title)
+func (c CID3) IsTarget(title string) bool {
+	matched := CID3Pattern.MatchString(title)
 	return matched
 }
 
-func (c CID4) GetDetail(item *models.Report) error {
+func (c CID3) GetDetail(item *models.Report) error {
 	// Get Table
 	table, err := utils.GetMainTable(item)
 	if err != nil {
@@ -40,7 +40,7 @@ func (c CID4) GetDetail(item *models.Report) error {
 		}
 
 		cellTitle, _ := utils.ReadCP949(tds.Text())
-		if CID4SubPattern1.MatchString(cellTitle) {
+		if CID3SubPattern1.MatchString(cellTitle) {
 			value, _ := utils.ReadCP949(tds.Next().Text())
 			item.Values[0] = utils.TrimAll(value)
 			return false
