@@ -76,9 +76,11 @@ func GetMainTable(item *models.Report) (*goquery.Selection, error) {
 		return nil, err
 	}
 	dcmNo := numberPattern.FindAllString(onclick, -1)[1]
+	item.DcmNo = dcmNo
 
 	// Report request
 	reportURL := fmt.Sprintf(dartReportURL, item.RceptNo, dcmNo)
+	item.ReportURL = reportURL
 	req2, err := http.Get(reportURL)
 	if err != nil {
 		return nil, err
