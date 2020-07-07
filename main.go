@@ -18,7 +18,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	data, err := utils.GetRecentReports(*cfg, "20200706", "1", "100")
+	data, err := utils.GetRecentReports(*cfg, "20200706", "3", "100")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(0)
