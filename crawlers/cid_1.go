@@ -1,7 +1,6 @@
 package crawlers
 
 import (
-	"fmt"
 	"fn-dart/models"
 	"fn-dart/utils"
 	"regexp"
@@ -40,7 +39,7 @@ func (c CID1) GetDetail(item *models.Report) error {
 
 	// Parse table
 	trs := table.Find("tr")
-	level := 0
+	level := 1
 	trs.EachWithBreak(func(idx int, sel *goquery.Selection) bool {
 		tds := sel.Find("td")
 		if tds.Length() <= 1 {
@@ -66,7 +65,7 @@ func (c CID1) GetDetail(item *models.Report) error {
 		} else if CID1SubPattern11.MatchString(cellTitle) {
 			level = 1
 			value, _ := utils.ReadCP949(tds.Next().Text())
-			item.Values[1] = utils.TrimAll(value)
+			item.Values[0] = utils.TrimAll(value)
 		} else if CID1SubPattern3.MatchString(cellTitle) {
 			level = 1
 			value, _ := utils.ReadCP949(tds.Next().Text())
@@ -75,10 +74,10 @@ func (c CID1) GetDetail(item *models.Report) error {
 			level = 1
 			value, _ := utils.ReadCP949(tds.Next().Text())
 			item.Values[4] = utils.TrimAll(value)
+			return false // break the loop
 		} else if CID1SubPattern2.MatchString(cellTitle) || level == 2 {
 			level = 2
 			cellSubTitle, _ := utils.ReadCP949(tds.Next().Text())
-			fmt.Println(cellSubTitle)
 			if CID1SubPattern21.MatchString(cellSubTitle) {
 				value, _ := utils.ReadCP949(tds.Next().Text())
 				item.Values[1] = utils.TrimAll(value)
@@ -87,9 +86,9 @@ func (c CID1) GetDetail(item *models.Report) error {
 				item.Values[2] = utils.TrimAll(value)
 			}
 		} else {
-			return false
+			return true
 		}
-		return false
+		return true
 	})
 	return nil
 }
