@@ -9,7 +9,7 @@ report_url = 'http://dart.fss.or.kr/report/viewer.do?rcpNo={}&dcmNo={}&eleId=0&o
 pat1 = re.compile('1\. ?판매ㆍ공급 ?계약 ?(내용|구분)')
 pat11 = re.compile('- ?체결 ?계약명?')
 pat2 = re.compile('2\. ?계약 ?내역')
-pat21 = re.compile('확정 ?계약 ?금액')
+pat21 = re.compile('(확정 ?계약 ?금액)|(계약 ?금액 ?\(원\))')
 pat22 = re.compile('매출액 ?대비 ?\(\%\)')
 pat3 = re.compile('3\. ?계약 ?상대방?')
 pat4 = re.compile('4\. ?판매ㆍ공급 ?지역')

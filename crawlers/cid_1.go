@@ -12,7 +12,7 @@ var CID1Pattern = regexp.MustCompile(`단일 ?판매 ?ㆍ ?공급 ?계약 ?체�
 var CID1SubPattern1 = regexp.MustCompile(`1\. ?판매ㆍ공급 ?계약 ?(내용|구분)`)
 var CID1SubPattern11 = regexp.MustCompile(`- ?체결 ?계약명?`)
 var CID1SubPattern2 = regexp.MustCompile(`2\. ?계약 ?내역`)
-var CID1SubPattern21 = regexp.MustCompile(`확정 ?계약 ?금액`)
+var CID1SubPattern21 = regexp.MustCompile(`(확정 ?계약 ?금액)|(계약 ?금액 ?\(원\))`)
 var CID1SubPattern22 = regexp.MustCompile(`매출액 ?대비 ?\(\%\)`)
 var CID1SubPattern3 = regexp.MustCompile(`3\. ?계약 ?상대방?`)
 var CID1SubPattern4 = regexp.MustCompile(`4\. ?판매ㆍ공급 ?지역`)
@@ -79,7 +79,7 @@ func (c CID1) GetDetail(item *models.Report) error {
 			level = 2
 			cellSubTitle, _ := utils.ReadCP949(tds.Next().Text())
 			if CID1SubPattern21.MatchString(cellSubTitle) {
-				value, _ := utils.ReadCP949(tds.Next().Text())
+				value, _ := utils.ReadCP949(tds.Next().Next().Text())
 				item.Values[1] = utils.TrimAll(value)
 			} else if CID1SubPattern22.MatchString(cellSubTitle) {
 				value, _ := utils.ReadCP949(tds.Next().Text())
