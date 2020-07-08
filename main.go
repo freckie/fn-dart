@@ -7,6 +7,7 @@ import (
 
 	"fn-dart/config"
 	"fn-dart/crawlers"
+	"fn-dart/engine"
 	"fn-dart/models"
 	"fn-dart/utils"
 )
@@ -18,7 +19,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	data, err := utils.GetRecentReports(*cfg, "20200706", "3", "100")
+	data, err := utils.GetRecentReports(*cfg, "", "1", "100")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(0)
@@ -29,6 +30,14 @@ func main() {
 	cid2 := crawlers.CID2{}
 	cid3 := crawlers.CID3{}
 	cid4 := crawlers.CID4{}
+
+	tg := engine.TGEngine{}
+	tg.Cfg = cfg
+	err = tg.GenerateBot()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(0)
+	}
 
 	for _, item := range data {
 		report := models.Report{}
@@ -57,6 +66,12 @@ func main() {
 		}
 
 		err := c.GetDetail(&report)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+
+		err = tg.SendMessage(report)
 		if err != nil {
 			fmt.Println(err)
 			continue
