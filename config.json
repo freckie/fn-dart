@@ -12,22 +12,22 @@
         "1": {
             "description": "단일판매ㆍ공급계약체결",
             "values_count": 5,
-            "message_format": "%(crop_name)\n판매ㆍ공급계약 내용 : %(0)\n확정 계약금액 : %(1)\n매출액 대비(%) : %(2)\n계약상대방 : %(3)\n판매ㆍ공급지역 : %(4)"
+            "message_format": "%(corp_name)\n판매ㆍ공급계약 내용 : %(0)\n확정 계약금액 : %(1)\n매출액 대비(%) : %(2)\n계약상대방 : %(3)\n판매ㆍ공급지역 : %(4)\n\n%(url)"
         },
         "2": {
             "description": "기타경영사항(특허권 취득)",
             "values_count": 2,
-            "message_format": "%(crop_name)\n특허명칭 : %(0)\n특허 활용계획 : %(1)"
+            "message_format": "%(corp_name)\n특허명칭 : %(0)\n특허 활용계획 : %(1)\n\n%(url)"
         },
         "3": {
             "description": "기타경영사항(자율공시)",
             "values_count": 1,
-            "message_format": "%(crop_name)\n제목 : %(0)\n"
+            "message_format": "%(corp_name)\n제목 : %(0)\n\n%(url)"
         },
         "4": {
             "description": "투자판단관련주요경영사항",
             "values_count": 1,
-            "message_format": "%(crop_name)\n제목 : %(0)\n"
+            "message_format": "%(corp_name)\n제목 : %(0)\n\n%(url)"
         }
     }
 }
