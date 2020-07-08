@@ -2,12 +2,11 @@ package engine
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"strings"
 
-	"fn-dart/config"
 	"fn-dart/models"
-	"fn-dart/utils"
 
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api"
 )
@@ -16,7 +15,7 @@ const MaxPrevMessageQueueSize = 5
 
 type TGEngine struct {
 	Bot          *telegram.BotAPI
-	Cfg          *config.Config
+	Cfg          *models.Config
 	PrevMessages []string
 }
 
@@ -30,20 +29,33 @@ func (tg *TGEngine) GenerateBot() error {
 	return nil
 }
 
-func (tg *TGEngine) SendMessage(item models.NewsItem, keywords []string) error {
+func (tg *TGEngine) SendMessage(item models.Report) error {
 	if tg.IsDuplicated(item) {
 		return errors.New("Message Duplicated.")
 	}
 
-	keywordStr := "[" + strings.Join(keywords, ", ") + "]"
-	contentsStr := strings.Replace(utils.StringSplit(item.Contents, 300), "<", "", -1)
-	contentsStr = strings.Replace(contentsStr, ">", "", -1)
+	var targetConfig models.ConfigItemTargetItem
+	if item.CrawlerID == "1" {
+		targetConfig = tg.Cfg.Targets.CID1
+	} else if item.CrawlerID == "2" {
+		targetConfig = tg.Cfg.Targets.CID2
+	} else if item.CrawlerID == "3" {
+		targetConfig = tg.Cfg.Targets.CID3
+	} else if item.CrawlerID == "4" {
+		targetConfig = tg.Cfg.Targets.CID4
+	} else {
+		return fmt.Errorf("invalid crawler id")
+	}
 
-	msgStr := tg.Cfg.Telegram.MessageFormat
-	msgStr = strings.Replace(msgStr, "%(title)", "<b>"+item.Title+"</b>", -1)
-	msgStr = strings.Replace(msgStr, "%(contents)", contentsStr, -1)
-	msgStr = strings.Replace(msgStr, "%(keywords)", keywordStr, -1)
-	msgStr = strings.Replace(msgStr, "%(link)", item.URL, -1)
+	msgStr := targetConfig.MessageFormat
+	msgStr = strings.Replace(msgStr, "%(url)", item.ReportURL, -1)
+	msgStr = strings.Replace(msgStr, "%(corp_name)", "<b>"+item.CorpName+"</b>", -1)
+	msgStr = strings.Replace(msgStr, "%(description)", "<b>"+targetConfig.Description+"</b>", -1)
+
+	for i := 0; i < targetConfig.ValuesCount; i++ {
+		param := fmt.Sprintf("%%(%d)", i)
+		msgStr = strings.Replace(msgStr, param, item.Values[i], -1)
+	}
 
 	for _, channel := range tg.Cfg.Telegram.Channels {
 		msgType := telegram.MessageConfig{
@@ -90,20 +102,20 @@ func (tg TGEngine) TestMessage() error {
 	return nil
 }
 
-func (tg TGEngine) IsDuplicated(item models.NewsItem) bool {
+func (tg TGEngine) IsDuplicated(item models.Report) bool {
 	for _, prevMsg := range tg.PrevMessages {
-		if item.Title == prevMsg {
+		if item.RceptNo == prevMsg {
 			return true
 		}
 	}
 	return false
 }
 
-func (tg *TGEngine) AddMessage(item models.NewsItem) {
+func (tg *TGEngine) AddMessage(item models.Report) {
 	if len(tg.PrevMessages) < 1 {
-		tg.PrevMessages = append(tg.PrevMessages, item.Title)
+		tg.PrevMessages = append(tg.PrevMessages, item.RceptNo)
 	} else {
-		tg.PrevMessages = append(tg.PrevMessages, item.Title)
+		tg.PrevMessages = append(tg.PrevMessages, item.RceptNo)
 		if len(tg.PrevMessages) > MaxPrevMessageQueueSize {
 			tg.PrevMessages = tg.PrevMessages[1:]
 		}
