@@ -71,7 +71,7 @@ func (tg *TGEngine) SendMessage(item models.Report) error {
 		if err != nil {
 			log.Println("[ERROR] 메세지 전송 실패 : ", err)
 		}
-		log.Printf("채널(%d)에 메세지 전송 : %v", channel, sentMsg.Text)
+		log.Printf("\n======== 채널(%d)에 메세지 전송 ======== \n%v", channel, sentMsg.Text)
 	}
 
 	tg.AddMessage(item)
