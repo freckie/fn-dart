@@ -67,11 +67,11 @@ func (tg *TGEngine) SendMessage(item models.Report) error {
 			ParseMode:             "html",
 			DisableWebPagePreview: false,
 		}
-		sentMsg, err := tg.Bot.Send(msgType)
+		_, err := tg.Bot.Send(msgType)
 		if err != nil {
 			log.Println("[ERROR] 메세지 전송 실패 : ", err)
 		}
-		log.Printf("\n======== 채널(%d)에 메세지 전송 ======== \n%v", channel, sentMsg.Text)
+		log.Printf("\n======== 채널(%d)에 메세지 전송 ======== \n보고서 제목: %v\n기업 이름: %v", channel, item.Title, item.CorpName)
 	}
 
 	tg.AddMessage(item)
