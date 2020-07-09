@@ -2,6 +2,7 @@ package utils
 
 import (
 	"bytes"
+	"fn-dart/models"
 	"strings"
 
 	"github.com/suapapa/go_hangul/encoding/cp949"
@@ -33,4 +34,23 @@ func ReadCP949(data string) (string, error) {
 	}
 
 	return strings.TrimSpace(string(b[:c])), nil
+}
+
+func MakePrevData(items []models.APIResultListItem) []string {
+	result := make([]string, len(items))
+
+	for idx, item := range items {
+		result[idx] = item.ReportNM
+	}
+
+	return result
+}
+
+func IsContain(target string, arr []string) bool {
+	for idx, _ := range arr {
+		if arr[idx] == target {
+			return true
+		}
+	}
+	return false
 }
