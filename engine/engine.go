@@ -1,7 +1,6 @@
 package engine
 
 import (
-	"fmt"
 	"fn-dart/config"
 	"fn-dart/crawlers"
 	"fn-dart/models"
@@ -61,7 +60,6 @@ func (c *Engine) Run() {
 	// Main Loop
 	c.Logger.Println("메인 루프 시작.")
 	for {
-		fmt.Println("[FOR DEBUG] 현재 prevData", prevData)
 
 		if errorCount >= 5 {
 			c.Logger.Printf("[ERROR] 에러 다발, 서버 문제로 추정, 당분간 대기.")
