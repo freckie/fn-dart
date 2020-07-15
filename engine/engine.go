@@ -15,6 +15,7 @@ type Engine struct {
 	Logger   *log.Logger
 	Cfg      *models.Config
 	TG       *TGEngine
+	SE       *SoundEngine
 	Crawlers []crawlers.Crawler
 }
 
@@ -39,6 +40,15 @@ func (c *Engine) Init(logger *log.Logger, filePath string) error {
 	}
 	c.Logger.Println("Telegram Engine 세팅 완료!")
 
+	// Sound Engine
+	c.SE = &SoundEngine{}
+	err = c.SE.Init(c.Cfg.Sound.On, c.Cfg.Sound.FilePath)
+	if err != nil {
+		return err
+	}
+	c.Logger.Println("Sound Engine 세팅 완료! 테스트용으로 사운드를 한 번 재생합니다.")
+	c.SE.Play()
+
 	return nil
 }
 
@@ -60,7 +70,6 @@ func (c *Engine) Run() {
 	// Main Loop
 	c.Logger.Println("메인 루프 시작.")
 	for {
-
 		if errorCount >= 5 {
 			c.Logger.Printf("[ERROR] 에러 다발, 서버 문제로 추정, 당분간 대기.")
 			time.Sleep(time.Millisecond * time.Duration(1000*60*5))
@@ -79,6 +88,9 @@ func (c *Engine) Run() {
 		// first time
 		if isFirst {
 			prevData = utils.MakePrevData(data)
+			for idx := range prevData {
+				c.TG.AddMessageWithRceptNo(prevData[idx])
+			}
 			isFirst = false
 			c.Logger.Printf("첫 수집 완료.\n")
 			time.Sleep(time.Millisecond * time.Duration(c.Cfg.Crawler.DelayTimer))
@@ -118,7 +130,12 @@ func (c *Engine) Run() {
 					continue
 				}
 				// Messaging Goroutine
-				go c.TG.SendMessage(report)
+				go func() {
+					err = c.TG.SendMessage(report)
+					if err == nil {
+						go c.SE.Play()
+					}
+				}()
 			}
 		}
 

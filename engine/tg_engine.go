@@ -121,3 +121,14 @@ func (tg *TGEngine) AddMessage(item models.Report) {
 		}
 	}
 }
+
+func (tg *TGEngine) AddMessageWithRceptNo(rceptNo string) {
+	if len(tg.PrevMessages) < 1 {
+		tg.PrevMessages = append(tg.PrevMessages, rceptNo)
+	} else {
+		tg.PrevMessages = append(tg.PrevMessages, rceptNo)
+		if len(tg.PrevMessages) > MaxPrevMessageQueueSize {
+			tg.PrevMessages = tg.PrevMessages[1:]
+		}
+	}
+}

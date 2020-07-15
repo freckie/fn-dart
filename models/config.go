@@ -3,6 +3,7 @@ package models
 type Config struct {
 	Telegram ConfigItemTelegram `json:"telegram"`
 	Crawler  ConfigItemCrawler  `json:"crawler"`
+	Sound    ConfigItemSound    `json:"sound"`
 	Targets  ConfigItemTarget   `json:"targets"`
 }
 
@@ -17,6 +18,11 @@ type ConfigItemCrawler struct {
 	MaxProcs   int    `json:"max_procs"`
 }
 
+type ConfigItemSound struct {
+	On       bool   `json:"on"`
+	FilePath string `json:"file_path"`
+}
+
 type ConfigItemTarget struct {
 	CID1 ConfigItemTargetItem `json:"1"`
 	CID2 ConfigItemTargetItem `json:"2"`
@@ -26,6 +32,6 @@ type ConfigItemTarget struct {
 
 type ConfigItemTargetItem struct {
 	Description   string `json:"description"`
-	ValuesCount        int    `json:"values_count"`
+	ValuesCount   int    `json:"values_count"`
 	MessageFormat string `json:"message_format"`
 }

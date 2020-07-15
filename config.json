@@ -8,6 +8,10 @@
         "delay_timer": 5000,
         "max_procs": 4
     },
+    "sound": {
+        "on": true,
+        "file_path": "test.mp3"
+    },
     "targets": {
         "1": {
             "description": "단일판매ㆍ공급계약체결",
