@@ -40,7 +40,7 @@ func MakePrevData(items []models.APIResultListItem) []string {
 	result := make([]string, len(items))
 
 	for idx, item := range items {
-		result[idx] = item.ReportNM
+		result[idx] = item.RceptNo
 	}
 
 	return result
