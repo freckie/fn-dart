@@ -1,15 +1,15 @@
 {
     "FixedFileInfo": {
         "FileVersion": {
-            "Major": 0,
-            "Minor": 9,
-            "Patch": 1,
+            "Major": 1,
+            "Minor": 0,
+            "Patch": 0,
             "Build": 0
         },
         "ProductVersion": {
-            "Major": 0,
-            "Minor": 9,
-            "Patch": 1,
+            "Major": 1,
+            "Minor": 0,
+            "Patch": 0,
             "Build": 0
         },
         "FileFlagsMask": "3f",
@@ -22,7 +22,7 @@
         "Comments": "",
         "CompanyName": "",
         "FileDescription": "dart crawler",
-        "FileVersion": "v0.9.1",
+        "FileVersion": "v1.0.0",
         "InternalName": "",
         "LegalCopyright": "",
         "LegalTrademarks": "",
