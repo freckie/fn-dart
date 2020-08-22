@@ -16,6 +16,7 @@ type ConfigItemCrawler struct {
 	DartAPIKey string `json:"dart_api_key"`
 	DelayTimer int    `json:"delay_timer"`
 	MaxProcs   int    `json:"max_procs"`
+	Version    string `json:"version"`
 }
 
 type ConfigItemSound struct {

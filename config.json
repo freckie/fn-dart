@@ -6,7 +6,8 @@
     "crawler": {
         "dart_api_key": "2249c9897c85c95a3ba3cdbcd524963a3837b171",
         "delay_timer": 5000,
-        "max_procs": 4
+        "max_procs": 4,
+        "version": "v2"
     },
     "sound": {
         "on": true,
